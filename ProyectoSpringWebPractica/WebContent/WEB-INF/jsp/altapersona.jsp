@@ -3,6 +3,7 @@
     
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,6 +21,9 @@ function llamadaRest()
 	var name = document.getElementById("nombre").value;
 	var age = document.getElementById("edad").value;
 	var description = document.getElementById("descripcion").value;
+	var photo = document.getElementById("foto").value;
+	var fotonombre = document.getElementById("fotoname").value;
+	var description = document.getElementById("dni").value;
 	
 	var persona = {
 		    nombre:name,
@@ -77,7 +81,42 @@ function muestraPersona(texto)
 
 </head>
 <body>
+<a href="rajoy?idioma=es"><img alt="Bandera española" src="imagenes/be.jpg"></a>
+<a href="rajoy?idioma=es_VE"><img alt="Bandera venezolana" src="imagenes/bv.png"></a>
+<a href="rajoy?idioma=en"><img alt="Bandera kingdoner" src="imagenes/buk.jpg"></a>
+  <form:form method="POST" modelAttribute="persona" >
+ 
+                <label for="nombre">Nombre</label>
+                <form:input type="text" path="nombre" id="nombre"/>
+                <form:errors path="nombre" class="errorsp"/><br><br>
+                
+                <label for="edad">Edad</label>
+                <form:input type="text" path="edad" id="edad" />
+                <form:errors path="edad" class="errorsp"/><br><br>
+                
+                <label for="descripcion">Descipción</label>
+                <form:textarea path="descripcion" id="descripcion"/>
+                <form:errors path="descripcion" class="errorsp"/><br><br>
+                
+                <label for="foto">Fotografía</label>
+                <form:input type="file" path="foto" id="foto"/>
+                            
+                
+                <label for="dni">Dni</label>
+                <form:input type="text" path="dni" id="dni" />
+                <form:errors path="dni" class="errorsp"/><br><br>
+    
+                <input type="submit" value="Registro" >
+    </form:form>
 
+
+
+
+
+
+
+</body>
+</html>
 
 <!--<a href="bienvenido2">Pincha aqui</a>
 
@@ -87,6 +126,7 @@ function muestraPersona(texto)
 Para que la peticion sea http://localhost:8090/ProyectoSpringWeb/bienvenido2 -->
 <!--  y asi llama al controlador y la opcion que le hemos puesto @RequestMapping("/bienvenido2") 
 llamaria-->
+<!-- OTRA VERSION DE FORMULARIO 
 
 <form action="altaPersona" method="post">
 Introduce tu nombre:   <br>
@@ -113,6 +153,5 @@ Introduce tu DNI:   <br>
 <input type="submit" value="enviar" class="btn"/>
 
 </form>
+FIN OTRA VERSION DEL FORMULARIO -->
 
-</body>
-</html>

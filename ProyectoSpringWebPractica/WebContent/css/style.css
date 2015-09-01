@@ -23,6 +23,12 @@ h3 {
 	margin-bottom: 0; 
 	color: #7D775C;
 	}
+
+.errorsp {
+	color: red;
+}
+	
+	
 a:link { 
 	font-weight: bold; 
 	text-decoration: none; 

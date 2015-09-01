@@ -16,7 +16,7 @@ public class ControllerServicioWeb {
 	public ResponseEntity <Persona> personaJSON()
 	{
 		Persona p=null;
-		p= new Persona("Pepe",33 ,"Mola mazo");
+		//p= new Persona("Pepe",33 ,"Mola mazo");
 		return new ResponseEntity<Persona>(p, HttpStatus.OK);
 	}
 }

@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,16 +20,25 @@ import clasesDTO.Persona;
  * Clase controller para subir ficheros
  */
 @Controller
+@RequestMapping(value = "/altaPersona")
 public class MiControllerFicheros {
+	
+	@RequestMapping ( method=RequestMethod.GET)
+	public String registrarPersona (ModelMap model)
+	{
+		Persona persona = new Persona();
+		model.addAttribute("persona", persona);
+		return "inicio";
+	}
 
 	/**
 	 * 1.- MODIFICADO PARA QUE NO HAGA FALTA PONERLE UN NOMBRE Y UNA EXTENSIÓN
 	 * SINO QUE LE PONGA EL MISMO NOMBRE QUE TIENE. 2.- MODIFICARLO PARA PODER
 	 * SUBIR VARIOS FICHEROS A LA VEZ
 	 */
-	@RequestMapping(value = "/altaPersona", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public String guardarFichero(@RequestParam("file") MultipartFile file, @RequestParam("nombre") String nombre,
+	public String guardarFichero(@RequestParam("file") File file, @RequestParam("nombre") String nombre,
 			 @RequestParam("edad") int edad, @RequestParam("descripcion") String descripcion, 
 			 @RequestParam("dni") String dni) {
 		String mensaje = "";
@@ -37,9 +49,9 @@ public class MiControllerFicheros {
 
 				
 
-			if (!file.isEmpty()) {
+			if (!((MultipartFile) file).isEmpty()) {
 				try {
-					byte[] bytes = file.getBytes();
+					byte[] bytes = ((MultipartFile) file).getBytes();
 
 					String rootPath = System.getProperty("catalina.home");
 					File dir = new File(rootPath + File.separator + "tmpFiles");
@@ -48,7 +60,7 @@ public class MiControllerFicheros {
 					}
 
 					File serverFile = new File(dir.getAbsolutePath()
-							+ File.separator + file.getOriginalFilename());
+							+ File.separator + ((MultipartFile) file).getOriginalFilename());
 					BufferedOutputStream stream = new BufferedOutputStream(
 							new FileOutputStream(serverFile));
 					stream.write(bytes);
@@ -59,7 +71,7 @@ public class MiControllerFicheros {
 					//mensaje = mensaje + " Fichero subido guay ="
 					//		+ file.getOriginalFilename();
 					
-					fotoname = file.getOriginalFilename();
+					fotoname = ((MultipartFile) file).getOriginalFilename();
 					
 					
 				} catch (Exception e) {
@@ -78,7 +90,7 @@ public class MiControllerFicheros {
 			
 			
 
-		return mensaje;
+		return "inicio";
 	}
 
 	
