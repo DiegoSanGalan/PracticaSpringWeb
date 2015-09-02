@@ -16,19 +16,19 @@ public class Persona {
 	@NotEmpty
 	private String nombre;
 	
-	@NotEmpty
+	@NotNull
 	@Min (18)
-	private int edad;
+	private Integer edad;
 	
 	@NotEmpty
 	private String descripcion;
 	//private Image foto;
 	
-	@NotNull
-	private File foto;
 	
-	@NotEmpty
-	private String fotoname;
+	private MultipartFile foto;
+	
+
+	private String filename;
 	
 	@NotEmpty
 	private String dni;
@@ -42,6 +42,30 @@ public class Persona {
 
 
 
+
+
+	
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Persona [nombre=" + nombre + ", edad=" + edad
+				+ ", descripcion=" + descripcion + ", foto=" + foto
+				+ ", filename=" + filename + ", dni=" + dni + "]";
+	}
+
+
+
+
+
+
+
+
+
 	/**
 	 * @param nombre
 	 * @param edad
@@ -50,34 +74,68 @@ public class Persona {
 	 * @param fotoname
 	 * @param dni
 	 */
-	public Persona(String nombre, int edad, String descripcion, File foto,
-			String fotoname, String dni) {
+	public Persona(String nombre, Integer edad, String descripcion,
+			MultipartFile foto, String filename, String dni) {
 		super();
 		this.nombre = nombre;
 		this.edad = edad;
 		this.descripcion = descripcion;
 		this.foto = foto;
-		this.fotoname = fotoname;
+		this.filename = filename;
 		this.dni = dni;
 	}
+
+
+
+
+
+	/**
+	 * @return the edad
+	 */
+	public Integer getEdad() {
+		return edad;
+	}
+
+
+
+
+
+	/**
+	 * @param edad the edad to set
+	 */
+	public void setEdad(Integer edad) {
+		this.edad = edad;
+	}
+
+
 
 
 
 	/**
 	 * @return the foto
 	 */
-	public File getFoto() {
+	public MultipartFile getFoto() {
 		return foto;
 	}
+
+
+
+
+
 
 
 
 	/**
 	 * @param foto the foto to set
 	 */
-	public void setFoto(File foto) {
+	public void setFoto(MultipartFile foto) {
 		this.foto = foto;
 	}
+
+
+
+
+
 
 
 
@@ -85,15 +143,15 @@ public class Persona {
 	 * @return the fotoname
 	 */
 	public String getFotoname() {
-		return fotoname;
+		return filename;
 	}
 
 
 	/**
 	 * @param fotoname the fotoname to set
 	 */
-	public void setFotoname(String fotoname) {
-		this.fotoname = fotoname;
+	public void setfilename(String filename) {
+		this.filename = filename;
 	}
 
 
@@ -113,20 +171,7 @@ public class Persona {
 	}
 
 
-	/**
-	 * @return the edad
-	 */
-	public int getEdad() {
-		return edad;
-	}
 
-
-	/**
-	 * @param edad the edad to set
-	 */
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
 
 
 	/**

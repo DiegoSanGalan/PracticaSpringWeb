@@ -15,39 +15,28 @@
 <script type="text/javascript">
 
 var xmlHttp = new XMLHttpRequest();
+var dni="";
 
-function llamadaRest()
+function llamadaDni()
 {
-	var name = document.getElementById("nombre").value;
-	var age = document.getElementById("edad").value;
-	var description = document.getElementById("descripcion").value;
-	var photo = document.getElementById("foto").value;
-	var fotonombre = document.getElementById("fotoname").value;
-	var description = document.getElementById("dni").value;
+	dni = document.getElementById("dni").value;
 	
-	var persona = {
-		    nombre:name,
-		    edad:age, 
-		    descripcion:description
-		};
-	
-	xmlHttp.onreadystatechange = procesarEvento; //indico que funcion es el punto de vuelta
-	xmlHttp.open('PUT', 'personaJSONPUT', true); //indicamos como vamos a enviar los datos, en este caso con el metodo GET al archivo meses.php?num= el valor que le indiquemos en el textbox
+	xmlHttp.onreadystatechange = procesarEventoDNI; //indico que funcion es el punto de vuelta
+	xmlHttp.open('GET', 'http://172.16.1.209:8090/Spring/calculaLetraDni?dni=' + dni, true); 
 			
-	xmlHttp.setRequestHeader('Accept', 'application/json'); //indicamos que aceptamos el tipo mime json
-	xmlHttp.setRequestHeader('Content-Type', 'application/json'); // definiendo el formato del contenido del body, en éste caso json
-	xmlHttp.send(JSON.stringify(persona)); //hago la llamada y como parámetro le envio el objeto persona representado en json (serializar), en el body
-	// JSON.stringify lo que hace es convertir el objeto en mensaje json.
+	xmlHttp.send(null); 
 }
 
-function procesarEvento()
+function procesarEventoDNI()
 {
-   
   if(xmlHttp.readyState==4) //ya hemos recibido respuesta del servidor
   {
       if(xmlHttp.status==200)// y el código de la cabecera http es bueno
           {
-    	  	muestraPersona(xmlHttp.responseText); // el body de la respuesta en texto plano
+    	  	var letraDNI = xmlHttp.responseText; // el body de la respuesta en texto plano
+    	  	//alert ("letra recibida: " + letraDNI);
+    	  	var dnicompleto = document.getElementById("dni");
+    	  	dnicompleto.value = dni + "-"+letraDNI;
           }
       else
       {
@@ -58,55 +47,42 @@ function procesarEvento()
 
 }
 
-function muestraPersona(texto)
-{
-	alert("He recibido " + texto);
-	var objetoJson = JSON.parse(texto); // para convertir el texto json y convertirlo en el objeto javascript
-	document.getElementById("nombre").value = objetoJson.nombre;
-	document.getElementById("edad").value = objetoJson.edad;
-	document.getElementById("descripcion").value = objetoJson.descripcion;
-	
-	
-}
 </script>
-
-
-
-
-
-
-
-
-
 
 </head>
 <body>
-<a href="rajoy?idioma=es"><img alt="Bandera española" src="imagenes/be.jpg"></a>
-<a href="rajoy?idioma=es_VE"><img alt="Bandera venezolana" src="imagenes/bv.png"></a>
-<a href="rajoy?idioma=en"><img alt="Bandera kingdoner" src="imagenes/buk.jpg"></a>
-  <form:form method="POST" modelAttribute="persona" >
+<a href="altaPersona?idioma=es"><img alt="Bandera española" src="imagenes/bandera_sp.png"></a>
+<a href="altaPersona?idioma=it"><img alt="Bandera italiana" src="imagenes/bandera_it.png"></a>
+<a href="altaPersona?idioma=en"><img alt="Bandera inglesa" src="imagenes/bandera_ing.png"></a>
+  
+  <form:form method="POST" modelAttribute="persona" enctype="multipart/form-data">
  
-                <label for="nombre">Nombre</label>
+ 
+ 				<spring:message code="formnombre"></spring:message>
+                
                 <form:input type="text" path="nombre" id="nombre"/>
                 <form:errors path="nombre" class="errorsp"/><br><br>
                 
-                <label for="edad">Edad</label>
+                <spring:message code="formedad"></spring:message>
+                
                 <form:input type="text" path="edad" id="edad" />
                 <form:errors path="edad" class="errorsp"/><br><br>
                 
-                <label for="descripcion">Descipción</label>
+                <spring:message code="formdesc"></spring:message>
+                
                 <form:textarea path="descripcion" id="descripcion"/>
                 <form:errors path="descripcion" class="errorsp"/><br><br>
                 
-                <label for="foto">Fotografía</label>
-                <form:input type="file" path="foto" id="foto"/>
-                            
+                <spring:message code="formfoto"></spring:message>
                 
-                <label for="dni">Dni</label>
-                <form:input type="text" path="dni" id="dni" />
+                <form:input type="file" path="foto" id="foto" name="file"/>
+                            
+                <spring:message code="formdni"></spring:message>
+                
+                <form:input type="text" path="dni" id="dni" onblur="llamadaDni()"/>
                 <form:errors path="dni" class="errorsp"/><br><br>
     
-                <input type="submit" value="Registro" >
+                <input type="submit" value="Registrar" >
     </form:form>
 
 
